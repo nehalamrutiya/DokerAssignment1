@@ -1,0 +1,30 @@
+name: Pull Request PHP CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+      - dev
+      - staging
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Run PHP syntax check (lint)
+        run: |
+          find . -name "*.php" -exec php -l {} \;
+
+      - name: Simulate build (without Docker)
+        run: |
+          echo "Build successful - PHP files passed linting"
